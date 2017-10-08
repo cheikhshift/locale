@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gos>
+	<!-- xml docs : http://golangserver.com/docs/markup.html -->
+	<deploy>package</deploy>
+	<port>8080</port>
+	<package>locale</package>
+	<import src="github.com/cheikhshift/locale"/>
+	<main>	
+		//Hello
+		locale.Add("en-US", "Hello", "Hello")
+		locale.Add("fr-FR", "Hello", "Bonjour")
+		locale.Add("wf-SN", "Hello", "Nangua def?")
+		locale.Add("wf-SN", "Eat", "Lekk")
+
+	</main>
+
+	<methods>
+		<method name="Loc" var="sessn, str" return="string">
+			var session = sessn.(*sessions.Session)
+			return locale.StrSession(session.Values["locale_set"], str.(string))
+		</method>
+
+		<method name="SetLoc" var="sessn,local" return="">
+			var session = sessn.(*sessions.Session)
+			session.Values["locale_set"] = local.(string)
+		</method>
+
+		<method name="Locale" var="local, str" return="string">
+			
+			return locale.Str(local.(string), str.(string))
+		</method>
+	</methods>
+
+	<endpoints>
+  		<end path="/set_local/" type="star" >		
+  			urlset := strings.Split(r.URL.Path, "/")
+  			session.Values["locale_set"] = urlset[2]
+  			response = fmt.Sprintf("{\"Message\":\"Success\",\"local_set\":\"%s\"}", urlset[2])
+  		</end>
+	</endpoints>
+</gos>
