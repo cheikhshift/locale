@@ -73,8 +73,23 @@ The following template snippet will localize string `"Hello"` to the current use
 				{{ Loc $session . }}
 			{{ end }}
 
-#### Localize with Custom string
+#### Localize wihout settings
+	{{ Locale $arg1 $arg2 }}
 
+##### Argument information
+- `$arg1` : Local setting to use. 
+- `$arg2` :  String to localize with current settings
+
+##### Example usage :
+The following template snippet will localize string `"Hello"` to the current user setting
+		
+			
+			{{ with "Hello" }}
+				{{ Locale "en-US" . }}
+			{{ end }}
+			{{ with "World" }}
+				{{ Locale "wf-SN" . }}
+			{{ end }}
 ### Package variables
 
 	var (
